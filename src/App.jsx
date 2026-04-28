@@ -1,56 +1,107 @@
-import { useState } from "react";
-import { atom, RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+import { memo, useEffect, useState } from "react";
 
-let counterAtom = atom({
-  key: "counter",
-  default: 0,
-});
-
-function App() {
-  return (
-    <RecoilRoot>
-      <Counter />
-    </RecoilRoot>
-  );
+function App(){
+  return <Counter/>
 }
 
-function Counter() {
-  return (
-    <div>
-      <Increase />
-      <Decrease />
-      <ShowCount />
-    </div>
-  );
+function Counter(){
+  let [count, setCount] = useState(0)
+
+  useEffect(()=>{
+    setInterval(()=>{
+      setCount(c => c + 1)
+    }, 3000)
+  }, [])
+
+  return <div>
+    <h1>Count is {count}</h1>
+    <FirstChild/>
+    <SecondChild/>
+    <ThirdChild/>
+  </div>
 }
 
-function Increase() {
-  let setCount = useSetRecoilState(counterAtom);
+let FirstChild = memo(function (){
+  return <div>
+    This is the First Child Component
+  </div>
+})
 
-  function increase() {
-    setCount((c) => c + 1);
-  }
+let SecondChild = memo(function (){
+  return <div>
+    This is the Second Child Component
+  </div>
+})
 
-  return <button onClick={increase}>Increase Count</button>;
-}
-
-function Decrease() {
-  let setCount = useSetRecoilState(counterAtom);
-
-  function decrease() {
-    setCount((c) => c - 1);
-  }
-
-  return <button onClick={decrease}>Decrease Count</button>;
-}
-
-function ShowCount() {
-  let count = useRecoilValue(counterAtom);
-
-  return <h1>{count}</h1>;
-}
+let ThirdChild = memo(function (){
+  return <div>
+    This is the Third Child Component
+  </div>
+})
 
 export default App;
+
+
+
+
+
+
+
+
+
+// import { useState } from "react";
+// import { atom, RecoilRoot, useRecoilValue, useSetRecoilState } from "recoil";
+
+// let counterAtom = atom({
+//   key: "counter",
+//   default: 0,
+// });
+
+// function App() {
+//   return (
+//     <RecoilRoot>
+//       <Counter />
+//     </RecoilRoot>
+//   );
+// }
+
+// function Counter() {
+//   return (
+//     <div>
+//       <Increase />
+//       <Decrease />
+//       <ShowCount />
+//     </div>
+//   );
+// }
+
+// function Increase() {
+//   let setCount = useSetRecoilState(counterAtom);
+
+//   function increase() {
+//     setCount((c) => c + 1);
+//   }
+
+//   return <button onClick={increase}>Increase Count</button>;
+// }
+
+// function Decrease() {
+//   let setCount = useSetRecoilState(counterAtom);
+
+//   function decrease() {
+//     setCount((c) => c - 1);
+//   }
+
+//   return <button onClick={decrease}>Decrease Count</button>;
+// }
+
+// function ShowCount() {
+//   let count = useRecoilValue(counterAtom);
+
+//   return <h1>{count}</h1>;
+// }
+
+// export default App;
 
 
 
